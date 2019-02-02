@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, View,TextInput, Image, ActivityIndicator, Alert, Button, Platform} from 'react-native';
+import {Text, StyleSheet, View,TextInput, Image, ActivityIndicator, Alert, Button, Platform, KeyboardAvoidingView} from 'react-native';
 import Landing from './src/Landing';
 import Login from './src/Login';
 import AddPill from './src/AddPill';
@@ -56,10 +56,10 @@ export default class App extends React.Component{
       )
     }
 
-    else if (this.state.currentScreen == "reallanding" ) {
+    else if (this.state.currentScreen === "reallanding" ) {
       return (<RealLanding switchScreen={this.switchScreen} />)
     }
-    else if (this.state.currentScreen == "addpill" ) {
+    else if (this.state.currentScreen === "addpill" ) {
       return (<AddPill switchScreen={this.switchScreen} />)
     }
   }
@@ -87,6 +87,7 @@ export default class App extends React.Component{
   render(){
     return(
       <View style={styles.wholeStyle}>
+      
       <LinearGradient 
         colors={['rgba(238,174,202,1)','rgba(148,187,233,1)']}
         start={[0,0]}
@@ -94,11 +95,13 @@ export default class App extends React.Component{
         location={[0,1]}
         style={styles.gradientStyle}
       /> 
+      
       <EightBaseAppProvider
         authClient={authClient}
         uri="https://api.8base.com/cjrk68sk8000901p1p2o1f8nh"
         onRequestError={this.handleRequestError}
       >
+      
       
       
         {({ loading }) => {
@@ -108,6 +111,7 @@ export default class App extends React.Component{
           return(this.renderScreen());
       }}
       </EightBaseAppProvider>
+      
       </View>
     )
   }

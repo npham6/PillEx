@@ -49,7 +49,7 @@ class Landing extends React.Component{
                         title='search'
                         color="#9FA8DA"
                         style={styles.buttonStyle}
-                        onPress={() => this.props.switchScreen("login")}
+                        onPress={() => this.props.switchScreen("reallanding")}
                     />
                 </View>
             </View>

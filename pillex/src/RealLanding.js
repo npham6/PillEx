@@ -32,6 +32,11 @@ const openTimePicker = async () =>
 
 //creat stuff
 class RealLanding extends React.Component{
+
+  constructor(props)
+  {
+      super(props);
+  }
   state = {
     todo: [],
     isDateTimePickerVisible: false,
@@ -111,7 +116,7 @@ class RealLanding extends React.Component{
                 <Button 
                     title="Add Todo"
                     color="#9FA8DA"
-                    onPress={this.addTodo} //sth happens when pressed
+                    onPress={() => this.props.switchScreen("addpill")} //sth happens when pressed
                 />
             </View>
             <View style={{marginTop: 10}}/>

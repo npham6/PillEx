@@ -13,21 +13,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const PILL_DESC_QUERY = gql`
-    mutation Pill_Ex_DescrCreate($data: Pill_Ex_DescrCreateInput!) {
-        Pill_Ex_DescrCreate(data: $data){
-            Name,
-            Freq,
-            Time,
-            Day,
-            Status
-        }
-    }
-`;
 
-AddPill = graphql(PILL_DESC_QUERY, {
-    name: 'pedCreate',
-})(AddPill);
 
 
 const openTimePicker = async () =>
@@ -49,6 +35,10 @@ const openTimePicker = async () =>
 
 //creat stuff
 class AddPill extends React.Component{
+    constructor(props)
+    {
+      super(props);
+    }
   state = {
     name: "",
     freq: "",
@@ -204,6 +194,21 @@ const styles = StyleSheet.create({
   }
   
 });
+const PILL_DESC_QUERY = gql`
+    mutation Pill_Ex_DescrCreate($data: Pill_Ex_DescrCreateInput!) {
+        Pill_Ex_DescrCreate(data: $data){
+            Name,
+            Freq,
+            Time,
+            Day,
+            Status
+        }
+    }
+`;
+
+AddPill = graphql(PILL_DESC_QUERY, {
+    name: 'pedCreate',
+})(AddPill);
 
 export default AddPill;
 

@@ -29,6 +29,10 @@ const styles = StyleSheet.create({
 });
 
 class PillItem extends React.Component {
+    constructor(props)
+    {
+        super(props);
+    }
   onDelete = () => {
     const { id } = this.props;
 
