@@ -4,27 +4,36 @@ import {Button} from 'react-native';
 import {ImageBackground} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
+import { EightBaseAppProvider, AuthContext } from '@8base/app-provider';
+import { ReactNativeAuth0AuthClient } from '@8base/react-native-auth0-auth-client';
+
+const AUTH0_CLIENT_ID = 'qGHZVu5CxY5klivm28OPLjopvsYp0baD';
+const AUTH0_DOMAIN = 'https://auth.8base.com';
+
+const authClient = new ReactNativeAuth0AuthClient({
+  clientId: AUTH0_CLIENT_ID,
+  domain: AUTH0_DOMAIN,
+});
 
 export default class App extends React.Component{
+  constructor(props) {
+    super(props);
+
+    this.state = {}
+  }
+
   render(){
     return(
-      <View style={styles.wholeStyle}>
-        <View style={{backgroundColor: '#B2EBF2', flex:1}}>
-          {/* <LinearGradient 
-          colors={['(rgba(0,0,0,0.8)','transparent']}
-          style={styles.gradientStyle}>
-          
-             <Text style={styles.header}> PillEx </Text>
-            <TextInput
-            style={styles.inputStyle}
-            // onChangeText
-            placeholder="Please enter serial number"
-            /> 
-
-          
-          </LinearGradient> */}
+      <EightBaseAppProvider
+        authClient={authClient}
+        uri="https://api.8base.com/cjrk68sk8000901p1p2o1f8nh"
+      >
+        <View style={styles.wholeStyle}>
+          <View style={{backgroundColor: '#B2EBF2', flex:1}}>
+            <Text>hi</Text>
+          </View>
         </View>
-      </View>
+      </EightBaseAppProvider>
     )
   }
 }
