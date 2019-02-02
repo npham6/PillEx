@@ -3,7 +3,7 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerNgrokUrl": "https://qd-aj2.anonymous.pillex.exp.direct",
+  "packagerNgrokUrl": "https://packager.qd-aj2.anonymous.pillex.exp.direct",
+  "ngrokPid": 48976
 }
