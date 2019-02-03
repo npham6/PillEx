@@ -3,6 +3,8 @@ import {StyleSheet, View,Text,TextInput} from 'react-native';
 import {Button} from 'react-native';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import {Font} from 'expo';
+
 
 
 class Landing extends React.Component{
@@ -13,40 +15,27 @@ class Landing extends React.Component{
             serial_num:"2016-05-15"
         }
     }
-
-    onAddSerial = async () => {
-        const {serial_num} = this.state;
-        try {
-            await this.props.todoCreate({
-              variables: {
-                data: { title },
-              },
-            });
-          } catch (e) {
-            console.log(e);
-            err = e;
-          }
-      
-          if (!err) {
-            Keyboard.dismiss();
-      
-            this.reset();
-          }
+    componentDidMount(){
+    //    Font.loadAsync({
+      //      'abril-fat-face': require('./assets/AbrilFatface-Regular.ttf')
+        //})
     }
 
     render(){
         return(
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <View >
                 <View style={styles.viewStyle}>
-                    <Text style={styles.titleStyle}> PillEx </Text>
+                
+                    <View style={{marginTop: 90, justifyContent:'center', alignItems: 'center'}}><Text style={styles.titleStyle}> PillEx </Text></View>
         
                     <TextInput
                         style={styles.inputStyle}
                         placeholder="Please enter serial number"
-                    />         
+                    />        
+                    
+ 
                     <Button 
-                        marginTop= '10'
-                        title='search'
+                        title='Sign In'
                         color="#9FA8DA"
                         style={styles.buttonStyle}
                         onPress={() => this.props.switchScreen("reallanding")}
@@ -58,15 +47,6 @@ class Landing extends React.Component{
 }
 
 
-const GQL_QUERY = gql`
-  query {
-    todo(id: "cjrn2sqlm000j01q92fue1b98"){
-      title
-    }
-  }
-`;
-
-
 const styles = StyleSheet.create({
     inputStyle:{
        height: 40,
@@ -74,27 +54,34 @@ const styles = StyleSheet.create({
        borderWidth:1,
        padding:5,
        margin: 10,
+       marginTop: 50,
+       borderRadius: 50,
+       width: '95%',
+       backgroundColor: 'white',
+       color: '#9FA8DA',
+       
         
     },
     viewStyle:{
-        alignItems: 'center',
         justifyContent: 'center',
-        margin: 10,
+        margin: 10
     },
 
     titleStyle:{
-        fontSize: 30,
+        fontSize: 50,
         alignItems: 'center',
         justifyContent: 'center',
         color: 'white',
         fontWeight: 'bold',
-        margin: 10,
+        marginTop: 50,
+        width: 'auto',
+//        fontFamily: 'abril-fat-face'
 
     },
 
     buttonStyle:{
         padding:5,
-        marginTop:10
+        marginTop:80
     }
 });
 
