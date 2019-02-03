@@ -9,7 +9,9 @@ import {View,
         TouchableOpacity,
         StyleSheet,
         TimePickerAndroid,
-        Picker  } from 'react-native';
+        DatePickerAndroid,
+        TouchableHighlight
+          } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -32,6 +34,22 @@ const openTimePicker = async () =>
       console.warn('Cannot open time picker', message);
     }
   }
+
+
+  const openDatePicker = async()=>{
+   try{
+      const {action, year, month, day} = await DatePickerAndroid.open({
+      // Use `new Date()` for current date.
+      // May 25 2020. Month 0 is January.
+      date: new Date(2020, 4, 25)
+    });
+    if (action !== DatePickerAndroid.dismissedAction) {
+      // Selected year, month (0-11), day
+    }
+  } catch ({code, message}) {
+    console.warn('Cannot open date picker', message);
+  }
+}
 
 
 //creat stuff
@@ -81,8 +99,8 @@ class AddPill extends React.Component{
       <Text>Pick Time</Text>
       </TouchableOpacity></View>;
 
-        var month = <View><TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openTimePicker}>
-        <Text>Pick Time</Text>
+        var month = <View><TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openDatePicker}>
+        <Text>Pick Date</Text>
         </TouchableOpacity></View>;
 
         var none = <View></View>
@@ -108,13 +126,28 @@ class AddPill extends React.Component{
         
       <View style={styles.wholeStyle}>
         <View style={styles.viewStyles}>
-          <Text style={styles.header}> PillEx</Text>
+         {/*} <Text style={styles.header}> PillEx</Text>*/}
+
+                   <View>
+                    <TouchableHighlight
+                        style={styles.submitHead}
+                        underlayColor='#fff'>
+                        <Text style={styles.submitTitle}>PillEx</Text>
+                    </TouchableHighlight>
+                    </View>
+
+
+
              <TextInput
-                style={styles.inputStyle}
+                style={styles.submitInput}
                 onChangeText={(name)=>this.setState({name})}
+                
+                underlayColor='#fff'
                 placeholder="Please enter your medication name"
                 value = {this.state.name}
                 />
+
+
             {/* TODO: Add Dropdown (react native selector for frequency) */}
             <View style={{width:200}} >
                 <Dropdown
@@ -128,27 +161,38 @@ class AddPill extends React.Component{
 
             {this.showProperContent()}
 
-            <View style={styles.buttonStyles}>
-                <Button 
+
+            <View style={styles.submit}>
+                <Button style={styles.submitText}
+                   color="#fff"
+                   backgroundColor="#9FA8DA"
                     title="Add Pill"
-                    color="#9FA8DA"
                     onPress={this.addTodo} //sth happens when pressed
                 />
             </View>
         </View>
       <View >
 
+
+                    <View style={styles.submit}>
+                      <Button style={styles.submitText}
+                        onPress={() => this.props.switchScreen("reallanding")}
+                        color="#fff"
+                        backgroundColor="#9FA8DA"  
+                        title="Back"
+                      />
+                    </View>
       
 
 
 
-          <View style={{bottom: 30}}>
+             {/* <View>
                 <Button style={styles.backButton}
                 title='Back'
                 color='#9FA8DA'
                 onPress={() => this.props.switchScreen("reallanding")}
                 />
-              </View>
+             </View> */}
         </View>
       </View>
      
@@ -175,11 +219,16 @@ const styles = StyleSheet.create({
   backgroundColor: "#F3E5F5"
  },
  inputStyle: {
-   height: 40,
-   width: "95%",
-   padding: 5,
-   borderColor: "#9FA8DA",
-   borderWidth: 1
+  height: 40,
+  borderColor:"white",
+  borderWidth:1,
+  padding:5,
+  margin: 10,
+  marginTop: 50,
+  borderRadius: 50,
+  width: '95%',
+  backgroundColor: 'white',
+  color: '#9FA8DA',
   },
 
   dropDown:{
@@ -200,7 +249,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic'
   },
   buttonStyles: {
-    padding: 5,
+
     marginTop: 10,
    // marginBottom: 10,
   },
@@ -212,12 +261,85 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "black"
   },
-  backButton:{
+
+  /*backButton:{
     width:50,
     position: 'absolute',
     marginTop:50
-  }
-  
+  }, */
+
+  submitText: {
+    color:'#fff',
+    textAlign:'center',
+},
+
+submit:{
+    marginRight:100,
+    marginLeft:100,
+    marginBottom:120,
+    //marginTop:,
+    paddingTop:20,
+    paddingBottom:20,
+   backgroundColor:'#9FA8DA',
+    borderRadius:20,
+    borderWidth: 2,
+    borderColor: '#fff'
+},
+
+submitPill:{
+  marginRight:50,
+    marginLeft:50,
+    marginTop:20,
+   // marginBottom:10,
+    paddingTop:7,
+    paddingBottom:7,
+    backgroundColor:'#9FA8DA',
+    borderRadius:20,
+    borderWidth: 2,
+    borderColor: '#fff'
+
+},
+
+submitHead: {
+  marginRight:20,
+  marginLeft:20,
+  marginTop:160,
+  marginBottom:10,
+  paddingTop:-10,
+ paddingBottom:-10,
+  backgroundColor:'#fff',
+  borderRadius:70,
+  borderWidth: 6,
+  borderColor: '#9FA8DA'
+
+},
+
+submitTitle:{
+  fontSize: 40,
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#9FA8DA',
+  fontWeight: 'bold',
+  margin: 10,
+  fontFamily: 'abril-fatface',
+  textAlign: 'center'
+},
+
+submitInput:{
+       
+  marginRight:40,
+  marginLeft:40,
+  marginTop:30,
+  marginBottom: 29,
+  paddingTop:20,
+  padding: 15,
+  paddingBottom:20,
+  backgroundColor:'#fff',
+  borderRadius:10,
+  borderWidth: 4,
+  borderColor: '#9FA8DA'
+}
+
 });
 const PILL_DESC_QUERY = gql`
     mutation pillEx_PillDescrCreate($data: PillEx_PillDescrCreateInput!) {

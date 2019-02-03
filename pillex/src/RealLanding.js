@@ -10,7 +10,8 @@ import {View,
         ScrollView,
         StyleSheet,
         TimePickerAndroid,
-        FlatList} from 'react-native';
+        FlatList,
+        TouchableHighlight} from 'react-native';
 import {PillItem} from '../src/PillItem';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { graphql } from 'react-apollo';
@@ -48,8 +49,20 @@ class RealLanding extends React.Component{
         <View style={styles.wholeStyle}>
       
         <View style={styles.viewStyles}>
+
+
+                    <View>
+                    <TouchableHighlight
+                        style={styles.submitHead}
+                        underlayColor='#fff'>
+                        <Text style={styles.submitTitle}>PillEx</Text>
+                    </TouchableHighlight>
+                    </View>
+
+
   
-            <Text style={styles.header}>PillEx</Text>
+            {/*<Text style={styles.header}>PillEx</Text>*/}
+
             <ScrollView style={{width: "100%"}}>
               <FlatList
                 data={this.props.data.items}
@@ -57,13 +70,26 @@ class RealLanding extends React.Component{
                 keyExtractor={({ id }) => id}
               />
             </ScrollView>
-            <View style={styles.buttonStyles}>
+
+
+            <View style={styles.submit}>
                 <Button 
                     title="Add Pill"
-                    color="#9FA8DA"
+                    color="#fff"
+                    backgroundColor="#9FA8DA"
                     onPress={() => this.props.switchScreen("addpill")} //sth happens when pressed
                 />
-            </View>
+              </View>
+
+                    {/*<View>
+                    <TouchableHighlight
+                        style={styles.submit}
+                        underlayColor='#fff'>
+                        <Text style={styles.submitText}>Add Pill</Text>
+                        onPress={() => this.props.switchScreen("addpill")} 
+
+                    </TouchableHighlight>
+                    </View>*/}
         
             </View>
         </View>
@@ -104,6 +130,31 @@ const styles = StyleSheet.create({
   margin: 10, 
   backgroundColor: "#F3E5F5"
  },
+
+ submitHead:{
+  marginRight:90,
+  marginLeft:90,
+  marginTop:10,
+  marginBottom:100,
+  //paddingTop:-10,
+ //paddingBottom:-10,
+  backgroundColor:'#fff',
+  borderRadius:70,
+  borderWidth: 5,
+  borderColor: '#9FA8DA'
+},
+
+submitTitle:{
+  fontSize: 30,
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#9FA8DA',
+  fontWeight: 'bold',
+  margin: 10,
+  fontFamily: 'abril-fatface',
+  textAlign: 'center'
+},
+
  inputStyle: {
    height: 40,
    width: "95%",
@@ -133,6 +184,24 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginTop: -5,
     position: 'absolute'
+  },
+
+  submit:{
+    marginRight:95,
+    marginLeft:95,
+    marginTop:30,
+    //marginBottom:10,
+    paddingTop:5,
+    paddingBottom:5,
+    backgroundColor:'#9FA8DA',
+    borderRadius:20,
+    borderWidth: 2,
+    borderColor: '#fff'
+  },
+
+  submitText:{
+    color:'#fff',
+    textAlign:'center',
   }
   
 });
