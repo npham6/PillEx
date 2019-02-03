@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, View,Text,TextInput} from 'react-native';
+import {StyleSheet, View,Text,TextInput, ActivityIndicator} from 'react-native';
 import {Button} from 'react-native';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import {Font} from 'expo';
 
 
 class Landing extends React.Component{
@@ -10,8 +11,14 @@ class Landing extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            serial_num:"2016-05-15"
+            serial_num:"2016-05-15",
+            isReady: false
         }
+    }
+
+    async componentDidMount() {
+        await Font.loadAsync({'abril-fatface': require('../assets/AbrilFatface-Regular.ttf')});
+        this.setState({isReady: true});
     }
 
     onAddSerial = async () => {
@@ -35,10 +42,13 @@ class Landing extends React.Component{
     }
 
     render(){
+        if(!this.state.isReady){
+            return <ActivityIndicator/>
+        }
         return(
             <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
                 <View style={styles.viewStyle}>
-                    <Text style={styles.titleStyle}> PillEx </Text>
+                    <View style={{backgroundColor:'white', borderRadius: 50}}><Text style={styles.titleStyle}> PillEx </Text></View>
         
                     <TextInput
                         style={styles.inputStyle}
@@ -86,9 +96,10 @@ const styles = StyleSheet.create({
         fontSize: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        color: 'white',
+        color: '#9FA8DA',
         fontWeight: 'bold',
         margin: 10,
+        fontFamily: 'abril-fatface',
 
     },
 

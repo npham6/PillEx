@@ -12,6 +12,7 @@ import {View,
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import {Dropdown} from 'react-native-material-dropdown';
 
 
 
@@ -61,53 +62,59 @@ class AddPill extends React.Component{
           data: { name, freq, time, day },
         },
       });
-      Alert(this.name + " has been added.");
+      Alert.alert(this.state.name + " has been added.");
       this.props.switchScreen('reallanding');
     } catch (e) {
       console.log(e);
       err = e;
     }
-
-    if (!err) {
-      Keyboard.dismiss();
-
-      this.reset();
-    }
-  };
-
-  showProperContent = () => {
-    if(this.state.freq == "daily")
-    {
-        return
-        (
-            <View>
-                <TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openTimePicker}>
-                <Text>Pick Time</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-    else if(this.state.freq == "weekly")
-    {
-        return
-        (
-            <View>
-                <TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openTimePicker}>
-                <Text>Pick Time</Text>
-                </TouchableOpacity>
-
-            </View>
-        );
-    }
-    else{
-        return(<View></View>);
-    }
   }
 
+  
+  showProperContent = () => {
+      var week = <View><TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openTimePicker}>
+      <Text>Pick Time</Text>
+      </TouchableOpacity></View>;
+
+        var month = <View><TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openTimePicker}>
+        <Text>Pick Time</Text>
+        </TouchableOpacity></View>;
+
+        var none = <View></View>
+        return(
+            <View>
+                {(this.state.freq === "daily") ? week: (this.state.freq === "weekly") ? month : none}    
+            </View>
+        );
+    }
+    // else if(this.state.freq === "weekly")
+    // {
+    //     return
+    //     (
+    //         <View>
+    //             <TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openTimePicker}>
+    //             <Text>Pick Time</Text>
+    //             </TouchableOpacity>
+
+    //         </View>
+    //     );
+    // }
+    // else{
+    //     return(<View></View>);
+    // }
  
 
   render() {
+      console.log(this.state.freq);
+    let data = [{
+        value: 'weekly',
+      }, {
+        value: 'daily',
+      }, {
+        value: 'Pear',
+      }];
     return ( 
+        
       <View style={styles.wholeStyle}>
       
         <View style={styles.viewStyles}>
@@ -121,6 +128,14 @@ class AddPill extends React.Component{
                 value = {this.state.name}
             />
             {/* TODO: Add Dropdown (react native selector for frequency) */}
+            <View style={{width: 200}}>
+            <Dropdown
+                label='Favorite Fruit'
+                data={data}
+                style={{width: 100,}}
+                onChangeText={(freq)=>this.setState({freq})}
+            />
+            </View>
 
             {this.showProperContent()}
 
@@ -195,13 +210,13 @@ const styles = StyleSheet.create({
   
 });
 const PILL_DESC_QUERY = gql`
-    mutation Pill_Ex_DescrCreate($data: Pill_Ex_DescrCreateInput!) {
-        Pill_Ex_DescrCreate(data: $data){
-            Name,
-            Freq,
-            Time,
-            Day,
-            Status
+    mutation pillEx_PillDescrCreate($data: PillEx_PillDescrCreateInput!) {
+        pillEx_PillDescrCreate(data: $data){
+            name,
+            freq,
+            time,
+            day,
+            status
         }
     }
 `;

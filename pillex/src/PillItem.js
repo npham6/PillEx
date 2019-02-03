@@ -33,77 +33,72 @@ class PillItem extends React.Component {
     {
         super(props);
     }
-  onDelete = () => {
-    const { id } = this.props;
+//   onDelete = () => {
+//     const { id } = this.props;
 
-    this.props.todoDelete({ variables: { filter: { id } } });
-  };
+//     this.props.pillDelete({ id} );
+//   };
 
-  onDone = () => {
-    const { id } = this.props;
+//   onDone = () => {
+//     const { id } = this.props;
 
-    this.props.todoUpdate({ variables: { data: { id, status: 'Done' } } });
-  };
+//     this.props.pillUpdate({ id} );
+//   };
 
-  onUndone = () => {
-    const { id } = this.props;
+//   onUndone = () => {
+//     const { id } = this.props;
 
-    this.props.todoUpdate({ variables: { data: { id, status: 'To Do' } } });
-  };
+//     this.props.pillUpdate({ id}  );
+//   };
 
   render() {
-    const { title, status } = this.props;
+    const { name } = this.props;
 
     return (
       <View style={styles.todosListItem}>
-        <Text style={styles.todosListItemTitle}>{title}</Text>
-        <Text style={styles.todosListItemStatus}>{status}</Text>
+        <Text style={styles.todosListItemTitle}>{name}</Text>
+        {/* <Text style={styles.todosListItemStatus}>{status}</Text> */}
         <Button
-          title="Delete"
+          title="X"
           color="#F44336"
-          onPress={this.onDelete}
+        //   onPress={this.onDelete}
           style={styles.todosListItemDelete}
           danger
         />
-        {status === 'To Do' ? (
-          <Button title="Done" color="#4CAF50" onPress={this.onDone} success />
-        ) : (
-          <Button title="Undone" color="#757575" onPress={this.onUndone} light />
-        )}
       </View>
     );
   }
 }
 
-const TODO_DELETE_MUTATION = gql`
-  mutation todoDelete($filter: TodoKeyFilter) {
-    todoDelete(filter: $filter, force: true) {
-      success
-    }
-  }
-`;
+// const TODO_DELETE_MUTATION = gql`
+//   mutation pillDelete($filter: PillEx_PillDescrKeyFilter) {
+//     pillEx_PillDescrDelete(filter: $filter, force: true) {
+//       success
+//     }
+//   }
+// `;
 
-const TODO_UPDATE_MUTATION = gql`
-  mutation todoUpdate($data: TodoUpdateInput!) {
-    todoUpdate(data: $data) {
-      id
-    }
-  }
-`;
+// const TODO_UPDATE_MUTATION = gql`
+//   mutation pillUpdate($data: PillEx_PillDescrUpdateInput!) {
+//     pillEx_PillDescrUpdate(data: $data) {
+//       id
+//     }
+//   }
+// `;
 
-PillItem = compose(
-  graphql(TODO_DELETE_MUTATION, {
-    name: 'todoDelete',
-    options: {
-      refetchQueries: ['TodosList'],
-    },
-  }),
-  graphql(TODO_UPDATE_MUTATION, {
-    name: 'todoUpdate',
-    options: {
-      refetchQueries: ['TodosList'],
-    },
-  })
-)(PillItem);
+// PillItem = compose(
+//   graphql(TODO_DELETE_MUTATION, {
+//     name: 'pillDelete',
+//     options: {
+//       refetchQueries: ['pillEx_PillDescrsList'],
+//     },
+//   }),
+//   graphql(TODO_UPDATE_MUTATION, {
+//     name: 'pillUpdate',
+//     options: {
+//       refetchQueries: ['pillEx_PillDescrsList'],
+//     },
+//   })
+// )(PillItem);
 
 export { PillItem };

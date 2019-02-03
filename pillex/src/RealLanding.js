@@ -6,28 +6,15 @@ import {View,
         TextInput, 
         Button, 
         TouchableOpacity,
+        ActivityIndicator,
+        ScrollView,
         StyleSheet,
-        TimePickerAndroid} from 'react-native';
+        TimePickerAndroid,
+        FlatList} from 'react-native';
 import {PillItem} from '../src/PillItem';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-
-
-
-const openTimePicker = async () =>
-  {
-    try {
-      const {action, hour, minute} = await TimePickerAndroid.open({
-        hour: 14,
-        minute: 0,
-        is24Hour: false, // Will display '2 PM'
-      });
-      if (action !== TimePickerAndroid.dismissedAction) {
-        // Selected hour (0-23), minute (0-59)
-      }
-    } catch ({code, message}) {
-      console.warn('Cannot open time picker', message);
-    }
-  }
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 
 //creat stuff
@@ -35,7 +22,8 @@ class RealLanding extends React.Component{
 
   constructor(props)
   {
-      super(props);
+    super(props);
+    
   }
   state = {
     todo: [],
@@ -44,89 +32,38 @@ class RealLanding extends React.Component{
     pillName: "",
   }
 
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
-  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
-
-  _handleDatePicked = (date) => {
-    console.log('A date has been picked: ', date);
-    this._hideDateTimePicker();
+  renderItem = ({ item: { id, name, time, day, status,  } }) => {
+    return <PillItem id={id} name={name} time={time} status={status} day={day}/>;
   };
-
-  addTodo = () => {
-    var newTodo = this.state.text;
-    var arr = this.state.todo;
-    arr.push(newTodo);
-    this.setState({todo: arr, text: ""});
-
-  }
-  deleteTodo = (t) =>{
-    var arr = this.state.todo;
-    var pos = arr.indexOf(t);
-    arr.splice(pos,1);
-    this.setState({todo: arr});
-  }
-
-  
-
- 
-  renderTodos = () =>{
-    return this.state.todo.map(t=>{
-      return (
-        <TouchableOpacity key={t}>
-        <Text 
-        style={styles.todo}
-        onPress={()=>{this.deleteTodo(t)}}
-        >{t}</Text>
-        </TouchableOpacity>
-      )
-    })
-
-  }
 
  
 
   render() {
+    console.log(this.props.data);
+    if (this.props.data.loading) {
+      return <ActivityIndicator size="large" color="#0000ff" />;
+    }
     return ( 
+      
         <View style={styles.wholeStyle}>
       
         <View style={styles.viewStyles}>
   
-            <Text style={styles.header}> PillEx</Text>
-
-            <TextInput
-            style={styles.inputStyle}
-            onChangeText={(pillName)=>this.setState({pillName})}
-            placeholder="Please enter your medication name"
-            value = {this.state.text}
-            />
-
-            {/* <TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}}onPress={this._showDateTimePicker}>
-                <Text>Pick Date</Text>
-            </TouchableOpacity>
-            <DateTimePicker
-                isVisible={this.state.isDateTimePickerVisible}
-                onConfirm={this._handleDatePicked}
-                onCancel={this._hideDateTimePicker}
-            /> */}
-            <TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openTimePicker}>
-                <Text>Pick Time</Text>
-            </TouchableOpacity>
+            <Text style={styles.header}>PillEx</Text>
+            <ScrollView style={{width: "100%"}}>
+              <FlatList
+                data={this.props.data.items}
+                renderItem={this.renderItem}
+                keyExtractor={({ id }) => id}
+              />
+            </ScrollView>
             <View style={styles.buttonStyles}>
                 <Button 
-                    title="Add Todo"
+                    title="Add Pill"
                     color="#9FA8DA"
                     onPress={() => this.props.switchScreen("addpill")} //sth happens when pressed
                 />
             </View>
-            <View style={{marginTop: 10}}/>
-            {this.renderTodos()}
-                <Button style={styles.backButton}
-                title='Back'
-                color='#9FA8DA'
-                onPress={() => this.props.switchScreen("landing")}
-
-                />
         
             </View>
         </View>
@@ -136,6 +73,24 @@ class RealLanding extends React.Component{
   
 };
 
+const PillDesc_LIST_QUERY = gql`
+  query {
+    pillEx_PillDescrsList(orderBy:[status_DESC, createdAt_DESC]){
+      items{
+        id,
+        name,
+        time,
+        day,
+        status,
+        pillImage {
+          downloadUrl
+        }
+      }
+    }
+  }
+`;
+
+RealLanding = graphql(PillDesc_LIST_QUERY)(RealLanding);
 
 
 const styles = StyleSheet.create({
@@ -146,8 +101,6 @@ const styles = StyleSheet.create({
   viewStyles: {
   flex: 1, //take sas much room as you can
   marginTop: 30,
-  alignItems: "center",
-  justifyContent: "center",
   margin: 10, 
   backgroundColor: "#F3E5F5"
  },
@@ -161,7 +114,8 @@ const styles = StyleSheet.create({
   header:{
     fontSize: 30,
     color: 'black',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    alignSelf: 'center'
   },
   buttonStyles: {
     padding: 5,
