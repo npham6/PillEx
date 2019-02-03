@@ -46,17 +46,19 @@ class Landing extends React.Component{
             return <ActivityIndicator/>
         }
         return(
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+            <View >
                 <View style={styles.viewStyle}>
-                    <View style={{backgroundColor:'white', borderRadius: 50}}><Text style={styles.titleStyle}> PillEx </Text></View>
+                
+                    <View style={{marginTop: 90, backgroundColor:'white', borderRadius: 50, justifyContent:'center', alignItems: 'center'}}><Text style={styles.titleStyle}> PillEx </Text></View>
         
                     <TextInput
                         style={styles.inputStyle}
                         placeholder="Please enter serial number"
-                    />         
+                    />        
+                    
+ 
                     <Button 
-                        marginTop= '10'
-                        title='search'
+                        title='Sign In'
                         color="#9FA8DA"
                         style={styles.buttonStyle}
                         onPress={() => this.props.switchScreen("reallanding")}
@@ -68,15 +70,6 @@ class Landing extends React.Component{
 }
 
 
-const GQL_QUERY = gql`
-  query {
-    todo(id: "cjrn2sqlm000j01q92fue1b98"){
-      title
-    }
-  }
-`;
-
-
 const styles = StyleSheet.create({
     inputStyle:{
        height: 40,
@@ -84,16 +77,21 @@ const styles = StyleSheet.create({
        borderWidth:1,
        padding:5,
        margin: 10,
+       marginTop: 50,
+       borderRadius: 50,
+       width: '95%',
+       backgroundColor: 'white',
+       color: '#9FA8DA',
+       
         
     },
     viewStyle:{
-        alignItems: 'center',
         justifyContent: 'center',
-        margin: 10,
+        margin: 10
     },
 
     titleStyle:{
-        fontSize: 30,
+        fontSize: 50,
         alignItems: 'center',
         justifyContent: 'center',
         color: '#9FA8DA',
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
 
     buttonStyle:{
         padding:5,
-        marginTop:10
+        marginTop:80
     }
 });
 

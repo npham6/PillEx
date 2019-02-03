@@ -8,12 +8,12 @@ import {View,
         Button, 
         TouchableOpacity,
         StyleSheet,
-        TimePickerAndroid} from 'react-native';
+        TimePickerAndroid,
+        Picker  } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import {Dropdown} from 'react-native-material-dropdown';
-
 
 
 
@@ -36,16 +36,21 @@ const openTimePicker = async () =>
 
 //creat stuff
 class AddPill extends React.Component{
+
     constructor(props)
     {
       super(props);
     }
-  state = {
-    name: "",
-    freq: "",
-    time: "",
-    day: -1
-  }
+
+    state={
+      name: "",
+      freq: "",
+      time: "",
+      day: -1
+    };
+    
+  
+  
 
   //_showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
@@ -87,55 +92,39 @@ class AddPill extends React.Component{
             </View>
         );
     }
-    // else if(this.state.freq === "weekly")
-    // {
-    //     return
-    //     (
-    //         <View>
-    //             <TouchableOpacity style={{height: 20, margin: 20, backgroundColor: "ffffff"}} onPress={openTimePicker}>
-    //             <Text>Pick Time</Text>
-    //             </TouchableOpacity>
 
-    //         </View>
-    //     );
-    // }
-    // else{
-    //     return(<View></View>);
-    // }
  
 
   render() {
-      console.log(this.state.freq);
-    let data = [{
-        value: 'weekly',
-      }, {
-        value: 'daily',
-      }, {
-        value: 'Pear',
-      }];
+
+  let data = [{
+      value: 'daily',
+    }, {
+      value: 'weekly',
+    }];
+  
+
     return ( 
         
       <View style={styles.wholeStyle}>
-      
         <View style={styles.viewStyles}>
-  
-            <Text style={styles.header}> PillEx</Text>
-
-            <TextInput
+          <Text style={styles.header}> PillEx</Text>
+             <TextInput
                 style={styles.inputStyle}
                 onChangeText={(name)=>this.setState({name})}
                 placeholder="Please enter your medication name"
                 value = {this.state.name}
-            />
+                />
             {/* TODO: Add Dropdown (react native selector for frequency) */}
-            <View style={{width: 200}}>
-            <Dropdown
-                label='Favorite Fruit'
-                data={data}
-                style={{width: 100,}}
-                onChangeText={(freq)=>this.setState({freq})}
-            />
+            <View style={{width:200}} >
+                <Dropdown
+                  style={{width:100,}}
+                  label ='Frequency'
+                  data={data}
+                  onChangeText={(freq)=>this.setState({freq})}
+                />
             </View>
+
 
             {this.showProperContent()}
 
@@ -147,19 +136,27 @@ class AddPill extends React.Component{
                 />
             </View>
         </View>
-        <View style={{bottom: 100}}>
-            <Button style={styles.backButton}
+      <View >
+
+      
+
+
+
+          <View style={{bottom: 30}}>
+                <Button style={styles.backButton}
                 title='Back'
                 color='#9FA8DA'
                 onPress={() => this.props.switchScreen("reallanding")}
-            />
+                />
+              </View>
         </View>
       </View>
      
-    )
+    );
   }
+}
   
-};
+
 
 
 
@@ -184,15 +181,28 @@ const styles = StyleSheet.create({
    borderColor: "#9FA8DA",
    borderWidth: 1
   },
+
+  dropDown:{
+    height: 100,
+   width: 100,
+   padding: 5,
+   borderColor: "#9FA8DA",
+   borderWidth: 10,
+    borderRadius:100,
+    width:'100%'
+  },
+
   header:{
-    fontSize: 30,
-    color: 'black',
-    fontWeight: 'bold'
+    marginTop: 20,
+    fontSize: 50,
+    color: 'white',
+    fontWeight: 'bold',
+    fontStyle: 'italic'
   },
   buttonStyles: {
     padding: 5,
     marginTop: 10,
-    marginBottom: 10,
+   // marginBottom: 10,
   },
   nextButton: {
     alignItems : "flex-end",
@@ -203,9 +213,9 @@ const styles = StyleSheet.create({
     color: "black"
   },
   backButton:{
-    alignSelf: 'flex-end',
-    marginTop: -5,
-    position: 'absolute'
+    width:50,
+    position: 'absolute',
+    marginTop:50
   }
   
 });

@@ -9,7 +9,6 @@ import {LinearGradient} from 'expo';
 
 import { EightBaseAppProvider, AuthContext } from '@8base/app-provider';
 import { ReactNativeAuth0AuthClient } from '@8base/react-native-auth0-auth-client';
-import { ApiTokenAuthClient } from '@8base/api-token-auth-client';
 
 
 const AUTH0_CLIENT_ID = 'qGHZVu5CxY5klivm28OPLjopvsYp0baD';
